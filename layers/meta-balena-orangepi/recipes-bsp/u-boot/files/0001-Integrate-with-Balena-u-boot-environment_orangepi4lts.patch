@@ -1,0 +1,40 @@
+From f10897ddbb91f05cbe2a87138ec8c050a9392da8 Mon Sep 17 00:00:00 2001
+From: Florin Sarbu <florin@balena.io>
+Date: Wed, 9 Mar 2022 10:07:50 +0100
+Subject: [PATCH] Integrate with Balena u-boot environment
+
+Upstream-Status: Inappropriate [configuration]
+Signed-off-by: Florin Sarbu <florin@balena.io>
+---
+ configs/rk3399_defconfig | 2 +-
+ include/configs/rockchip-common.h   | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/configs/rk3399_defconfig b/configs/rk3399_defconfig
+index 57f176c682..18e8fcff9d 100644
+--- a/configs/rk3399_defconfig
++++ b/configs/rk3399_defconfig
+@@ -48,7 +48,7 @@ CONFIG_CMD_BOOT_ROCKCHIP=y
+ CONFIG_CMD_MMC=y
+ CONFIG_CMD_USB=y
+ # CONFIG_CMD_ITEST is not set
+-# CONFIG_CMD_SETEXPR is not set
++CONFIG_CMD_SETEXPR=y
+ # CONFIG_CMD_MISC is not set
+ # CONFIG_SPL_DOS_PARTITION is not set
+ # CONFIG_ISO_PARTITION is not set
+diff --git a/include/configs/rockchip-common.h b/include/configs/rockchip-common.h
+index a8d4e52743..597be0a557 100644
+--- a/include/configs/rockchip-common.h
++++ b/include/configs/rockchip-common.h
+@@ -136,6 +136,7 @@
+ 	"fastboot usb 0;"
+ #else
+ #define RKIMG_BOOTCOMMAND \
++	"setenv resin_kernel_load_addr ${kernel_addr_r}; run resin_set_kernel_root; run set_os_cmdline;"\
+ 	"boot_android ${devtype} ${devnum};" \
+ 	"bootrkp;" \
+ 	"run distro_bootcmd;"
+-- 
+2.17.1
+
